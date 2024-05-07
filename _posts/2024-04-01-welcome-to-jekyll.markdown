@@ -59,10 +59,670 @@ The story depicted by these plots highlights the trade-offs between cost, time, 
 
 
 
+##Explainer Notebook:
+# **Final Project - CO2 Emissions and Commuting in London**
+**The central idea behind our final project**
+The idea is to analyze how efficiently people can commute in London while considering their environmental footprint and how these factors match up with their actual commuting choices.
+
+**Dataset Needed:**
+The dataset below with 36 variables on 81,086 trips, covering different transport modes, costs, durations, personal demographics, and environmental impacts.
+
+
+```python
+import pandas as pd
+df = pd.read_csv("dataset.csv")
+df
+```
 
 
 
-Max's Notebook:
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>household_id</th>
+      <th>person_n</th>
+      <th>trip_n</th>
+      <th>travel_mode</th>
+      <th>purpose</th>
+      <th>fueltype</th>
+      <th>faretype</th>
+      <th>bus_scale</th>
+      <th>survey_year</th>
+      <th>...</th>
+      <th>dur_pt_int_total</th>
+      <th>dur_pt_int_waiting</th>
+      <th>dur_pt_int_walking</th>
+      <th>pt_n_interchanges</th>
+      <th>dur_driving</th>
+      <th>cost_transit</th>
+      <th>cost_driving_total</th>
+      <th>cost_driving_fuel</th>
+      <th>cost_driving_con_charge</th>
+      <th>driving_traffic_percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Petrol_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.052222</td>
+      <td>1.5</td>
+      <td>0.14</td>
+      <td>0.14</td>
+      <td>0.0</td>
+      <td>0.111702</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Petrol_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.059444</td>
+      <td>1.5</td>
+      <td>0.15</td>
+      <td>0.15</td>
+      <td>0.0</td>
+      <td>0.112150</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Petrol_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.236667</td>
+      <td>1.5</td>
+      <td>0.79</td>
+      <td>0.79</td>
+      <td>0.0</td>
+      <td>0.203052</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Petrol_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.233333</td>
+      <td>1.5</td>
+      <td>0.78</td>
+      <td>0.78</td>
+      <td>0.0</td>
+      <td>0.160714</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Petrol_Car</td>
+      <td>dis</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.229167</td>
+      <td>1.5</td>
+      <td>0.78</td>
+      <td>0.78</td>
+      <td>0.0</td>
+      <td>0.130909</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>81081</th>
+      <td>81081</td>
+      <td>17615</td>
+      <td>0</td>
+      <td>0</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Average_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0.216667</td>
+      <td>0.197222</td>
+      <td>0.019444</td>
+      <td>2</td>
+      <td>0.859722</td>
+      <td>4.3</td>
+      <td>2.48</td>
+      <td>2.48</td>
+      <td>0.0</td>
+      <td>0.402262</td>
+    </tr>
+    <tr>
+      <th>81082</th>
+      <td>81082</td>
+      <td>17615</td>
+      <td>0</td>
+      <td>2</td>
+      <td>drive</td>
+      <td>NHBO</td>
+      <td>Average_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0.183333</td>
+      <td>0.160278</td>
+      <td>0.023056</td>
+      <td>2</td>
+      <td>0.925833</td>
+      <td>4.3</td>
+      <td>2.53</td>
+      <td>2.53</td>
+      <td>0.0</td>
+      <td>0.503750</td>
+    </tr>
+    <tr>
+      <th>81083</th>
+      <td>81083</td>
+      <td>17615</td>
+      <td>0</td>
+      <td>3</td>
+      <td>drive</td>
+      <td>HBO</td>
+      <td>Average_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.112500</td>
+      <td>1.5</td>
+      <td>0.32</td>
+      <td>0.32</td>
+      <td>0.0</td>
+      <td>0.234568</td>
+    </tr>
+    <tr>
+      <th>81084</th>
+      <td>81084</td>
+      <td>17615</td>
+      <td>1</td>
+      <td>0</td>
+      <td>pt</td>
+      <td>HBW</td>
+      <td>Average_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0.250000</td>
+      <td>0.230556</td>
+      <td>0.019444</td>
+      <td>2</td>
+      <td>1.121944</td>
+      <td>4.4</td>
+      <td>12.88</td>
+      <td>2.38</td>
+      <td>10.5</td>
+      <td>0.760832</td>
+    </tr>
+    <tr>
+      <th>81085</th>
+      <td>81085</td>
+      <td>17615</td>
+      <td>1</td>
+      <td>1</td>
+      <td>pt</td>
+      <td>HBW</td>
+      <td>Average_Car</td>
+      <td>full</td>
+      <td>1.0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0.100000</td>
+      <td>0.079167</td>
+      <td>0.020833</td>
+      <td>1</td>
+      <td>0.941389</td>
+      <td>5.9</td>
+      <td>2.38</td>
+      <td>2.38</td>
+      <td>0.0</td>
+      <td>0.652995</td>
+    </tr>
+  </tbody>
+</table>
+<p>81086 rows × 36 columns</p>
+</div>
+
+
+
+# **Commute Efficiency, Environmental Impact, and Preference**
+
+**Objective:** Evaluate how commuters' preferences for transport modes align with the efficiency and environmental impact of those modes.
+
+**Why is this interesting**
+This is compelling because it touches on everyday decisions that affect personal time, finances, urban planning, and the environment. Understanding these dynamics can help in promoting sustainable transport policies, improving city infrastructure, and advocating for changes in commuter behavior.
+
+**End goal**
+The end goal for this project, is to be able to see the impact of commuting on the environment, and whether or not commuters in London can choose to travel more environmentally friendly. 
+
+
+**Preliminary data analysis**
+
+The dataset's file size is almost 15 MBs, has 81086 rows and 36 columns.
+
+The date range of the survey year column is from 2012 to 2015.
+
+
+```python
+import matplotlib.pyplot as plt
+fueltype_count = df["fueltype"].value_counts()
+plt.figure(figsize=(3,3))
+fueltype_count.plot(kind="bar")
+plt.xlabel("Fuel type")
+plt.ylabel("Occurences")
+plt.title("Occurences of each fueltype of transport in London")
+plt.show()
+```
+
+
+    
+![png](Explainer%20Notebook_files/Explainer%20Notebook_4_0.png)
+    
+
+
+
+```python
+travelmode_count = df["travel_mode"].value_counts()
+plt.figure(figsize=(3,3))
+travelmode_count.plot(kind="bar")
+plt.xlabel("Travel Mode")
+plt.ylabel("Occurences")
+plt.title("Occurences of each mode of transport in London")
+plt.show()
+# drive is cars, pt is public transport, walk is walking and cycle is a bike
+```
+
+
+    
+![png](Explainer%20Notebook_files/Explainer%20Notebook_5_0.png)
+    
+
+
+
+```python
+year_counts = df["travel_year"].value_counts()
+print("Year with most trips: ", year_counts.index[0],"\n")
+print("Year with least trips: ", year_counts.index[-2], "\n")
+
+sorted_year_count = year_counts.sort_index()
+plt.figure(figsize=(3,3))
+sorted_year_count.plot(kind="bar")
+plt.title("Trips by year")
+plt.xlabel("Year")
+plt.ylabel("Amount of trips")
+plt.show()
+```
+
+    Year with most trips:  2013 
+    
+    Year with least trips:  2012 
+    
+    
+
+
+    
+![png](Explainer%20Notebook_files/Explainer%20Notebook_6_1.png)
+    
+
+
+Through our exploratory analysis we noticed a few different things about the dataset. For example, clearly the dataset doesn't fully cover the year 2015.
+Also, driving is clearly the most popular type of commuting. Specifically, driving with petrol cars. 
+
+**Analysis**
+
+We made several different analyses of the dataset.
+
+
+
+```python
+# Update emissions per meter calculations based on 7,600 miles per year (about 12,231 kilometers)
+#Based on values from https://www.ageco.co.uk/useful-articles/car/what-are-the-co2-emissions-of-my-car/
+# and https://www.eea.europa.eu/highlights/average-co2-emissions-from-new-cars-vans-2019
+emissions_per_km = {
+    'Petrol_Car': 1749 / 12231,  # kg per km
+    'Diesel_Car': 2006 / 12231,
+    'Hybrid_Car': (1544 + 429) / 2 / 12231,  # Average of two hybrid types
+    'Plug-in_Hybrid': 429 / 12231,
+    'Electric_Car': 0,  # Adding Electric Car with 0kg emissions
+    'Petrol_LGV': 147.3 / 1000,  # Convert g/km to kg/km
+    'Diesel_LGV': 161.2 / 1000
+}
+mean_emissions = sum(emissions_per_km.values()) / len(emissions_per_km)
+emissions_per_km.update({
+    'Average_Car': mean_emissions
+})
+# Calculate CO2 emissions for each row in the dataset
+df['co2_emissions'] = df.apply(lambda row: emissions_per_km.get(row['fueltype'], 0) * row['distance'], axis=1)
+# Group data by fuel type to calculate average emissions per meter
+data = df[df["travel_mode"] == "drive"]
+average_emissions = data.groupby('fueltype')['co2_emissions'].mean().reset_index()
+from bokeh.plotting import figure, show, output_notebook,output_file
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.io import push_notebook
+
+output_notebook()
+output_file("emission_per_trip.html")
+
+source = ColumnDataSource(data=average_emissions)
+p = figure(x_range=average_emissions["fueltype"], 
+           height=350, title="CO2 Emissions per Trip by Car Type",
+           toolbar_location=None, tools="")
+
+p.vbar(x='fueltype', top='co2_emissions', width=0.9, source=source)
+
+# Add hover tool
+hover = HoverTool()
+hover.tooltips = [("Fuel Type", "@fueltype"), ("Avg CO2 Emissions (kg/trip)", "@co2_emissions")]
+p.add_tools(hover)
+
+# Styling
+#p.xgrid.grid_line_color = None
+p.y_range.start = 0
+
+# Show the result
+show(p)
+```
+
+
+```python
+from bokeh.plotting import figure, show, output_notebook, output_file
+from bokeh.models import ColumnDataSource, Slider, CustomJS, HoverTool
+from bokeh.layouts import column
+from bokeh.io import push_notebook
+import numpy as np
+
+# Example data (replace this with your actual CO2 emissions data)
+co2_emissions = df[df["travel_mode"] == "drive"]
+co2_emissions = co2_emissions["co2_emissions"]
+# Initial histogram setup
+hist, edges = np.histogram(co2_emissions, bins=10)
+
+# Create a ColumnDataSource, include bin edges for tooltips
+source = ColumnDataSource(data={
+    'top': hist, 
+    'left': edges[:-1], 
+    'right': edges[1:],
+    'bin_min': edges[:-1],
+    'bin_max': edges[1:]
+})
+
+# Create a figure
+p = figure(height=350, title="CO2 Emissions Histogram",
+           tools="", x_range=[min(edges), max(edges)])
+
+# Add quads to the figure
+p.quad(bottom=0, top='top', left='left', right='right', source=source, line_color="white")
+
+# Add hover tool to show bin range
+hover = HoverTool(tooltips=[
+    ("Bin Min", "@bin_min{0.0} kg/km"),
+    ("Bin Max", "@bin_max{0.0} kg/km"),
+    ("Count", "@top")
+])
+p.add_tools(hover)
+
+# Slider for adjusting the bins
+slider = Slider(start=5, end=50, value=10, step=1, title="Number of Bins")
+
+# JavaScript to update the histogram based on the slider
+callback = CustomJS(args=dict(source=source, slider=slider, all_emissions=co2_emissions), code="""
+    var data = source.data;
+    var bins = slider.value;
+    var emissions = all_emissions;
+    
+    var hist = new Array(bins).fill(0);
+    var min = Math.min(...emissions);
+    var max = Math.max(...emissions);
+    var width = (max - min) / bins;
+    
+    var edges = new Array(bins+1);
+    
+    for (var i = 0; i <= bins; i++) {
+        edges[i] = min + i * width;
+    }
+    
+    for (var j = 0; j < emissions.length; j++) {
+        var index = Math.floor((emissions[j] - min) / width);
+        if (index >= bins) { index = bins - 1; }
+        hist[index]++;
+    }
+    
+    data['top'] = hist;
+    data['left'] = edges.slice(0, bins);
+    data['right'] = edges.slice(1, bins+1);
+    data['bin_min'] = edges.slice(0, bins);  // Update bin_min
+    data['bin_max'] = edges.slice(1, bins+1);  // Update bin_max
+    
+    source.change.emit();
+""")
+
+slider.js_on_change('value', callback)
+
+# Layout with slider and plot
+layout = column(slider, p)
+
+# Show the plot
+output_notebook()
+output_file("emissions_histogram.html")
+show(layout)
+```
+
+
+```python
+from bokeh.plotting import figure, show, output_notebook, output_file
+from bokeh.models import ColumnDataSource, Slider, CustomJS, HoverTool
+from bokeh.layouts import column
+from bokeh.io import push_notebook
+import numpy as np
+
+# Example data (replace this with your actual CO2 emissions data)
+
+distances = df[df["travel_mode"] == "drive"]
+distances = df["distance"]
+# Initial histogram setup
+hist, edges = np.histogram(distances, bins=10)
+
+# Create a ColumnDataSource, include bin edges for tooltips
+source = ColumnDataSource(data={
+    'top': hist, 
+    'left': edges[:-1], 
+    'right': edges[1:],
+    'bin_min': edges[:-1],
+    'bin_max': edges[1:]
+})
+
+# Create a figure
+p = figure(height=350, title="Distance Histogram",
+           tools="", x_range=[min(edges), max(edges)])
+
+# Add quads to the figure
+p.quad(bottom=0, top='top', left='left', right='right', source=source, line_color="white")
+
+# Add hover tool to show bin range
+hover = HoverTool(tooltips=[
+    ("Bin Min", "@bin_min{0.0} m"),
+    ("Bin Max", "@bin_max{0.0} m"),
+    ("Count", "@top")
+])
+p.add_tools(hover)
+
+# Slider for adjusting the bins
+slider = Slider(start=5, end=50, value=10, step=1, title="Number of Bins")
+
+# JavaScript to update the histogram based on the slider
+callback = CustomJS(args=dict(source=source, slider=slider, all_emissions=distances), code="""
+    var data = source.data;
+    var bins = slider.value;
+    var emissions = all_emissions;
+    
+    var hist = new Array(bins).fill(0);
+    var min = Math.min(...emissions);
+    var max = Math.max(...emissions);
+    var width = (max - min) / bins;
+    
+    var edges = new Array(bins+1);
+    
+    for (var i = 0; i <= bins; i++) {
+        edges[i] = min + i * width;
+    }
+    
+    for (var j = 0; j < emissions.length; j++) {
+        var index = Math.floor((emissions[j] - min) / width);
+        if (index >= bins) { index = bins - 1; }
+        hist[index]++;
+    }
+    
+    data['top'] = hist;
+    data['left'] = edges.slice(0, bins);
+    data['right'] = edges.slice(1, bins+1);
+    data['bin_min'] = edges.slice(0, bins);  // Update bin_min
+    data['bin_max'] = edges.slice(1, bins+1);  // Update bin_max
+    
+    source.change.emit();
+""")
+
+slider.js_on_change('value', callback)
+
+# Layout with slider and plot
+layout = column(slider, p)
+
+# Show the plot
+output_notebook()
+output_file("distances_histogram.html")
+show(layout)
+```
+
+**See the other notebooks for more of the analysis**
+
+**Discussion**
+
+In doing our analysis of the dataset, we found out we overshot with our original ideas. We wanted to be able to create maps and such, but the dataset had no geographical data, which resulted in us changing our idea of showing how londoners commuted and their environmental impact instead. 
+In the end, we still think a final dashboard could be made, essentially mashing all our plots toghether, creating filters to impact the different visualizations.
+We would have liked to look at more correlations to show the differences and impacts of the different columns on each other, as well as on our added columns, such as co2_emissions. 
+
+**Contributions**
+
+Sunnie: Travel fare type by mode plots
+
+Max: Distance plots (histograms, time plot)
+
+Dimasha: Plots for averages of cost, duration, distance, etc.
+
+
+
+
+```python
+
+```
+
+
+
+**Max's Notebook:**
 
 ```python
 import pandas as pd
@@ -452,7 +1112,12 @@ plt.xlabel("Fuel type")
 plt.ylabel("Occurences")
 plt.title("Occurences of each fueltype of transport in London")
 plt.show()
-```    
+```
+
+
+    
+![png](Project%20Assignment%201_files/Project%20Assignment%201_7_0.png)
+    
 
 
 
@@ -465,7 +1130,12 @@ plt.ylabel("Occurences")
 plt.title("Occurences of each mode of transport in London")
 plt.show()
 # drive is cars, pt is public transport, walk is walking and cycle is a bike
-```    
+```
+
+
+    
+![png](Project%20Assignment%201_files/Project%20Assignment%201_8_0.png)
+    
 
 
 
@@ -486,7 +1156,13 @@ plt.show()
     Year with most trips:  2013 
     
     Year with least trips:  2012 
-        
+    
+    
+
+
+    
+![png](Project%20Assignment%201_files/Project%20Assignment%201_9_1.png)
+    
 
 
 
@@ -666,6 +1342,9 @@ plt.bar(household_counts.travel_mode,household_counts.TotalCounts,width=0.4)
 plt.show()
 ```
 
+
+    
+![png](Project%20Assignment%201_files/Project%20Assignment%201_15_0.png)
     
 
 
@@ -1021,5 +1700,418 @@ show(layout)
 
 ```
 
+**Dimasha Notebook:**
+
+
+```python
+import pandas as pd
+from bokeh.io import output_notebook, show
+from bokeh.models import CheckboxButtonGroup, RangeSlider, ColumnDataSource
+from bokeh.plotting import figure
+from bokeh.layouts import column, row
+from bokeh.transform import factor_cmap
+from bokeh.palettes import Spectral4
+from bokeh.palettes import Category10
+from bokeh.io import output_notebook, show, output_file
+from bokeh.application.handlers import FunctionHandler
+from bokeh.application import Application
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.layouts import gridplot
+import pandas as pd
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.layouts import gridplot
+from bokeh.models import ColumnDataSource
+from bokeh.palettes import Spectral4
+from bokeh.models import Range1d  
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.layouts import column
+from bokeh.models import ColumnDataSource, HoverTool, PanTool, WheelZoomTool, BoxZoomTool, ResetTool, SaveTool
+from bokeh.palettes import Spectral4
+
+```
+
+
+```python
+df = pd.read_csv("dataset.csv")
+df_filtered = df[['trip_id','travel_mode','purpose','travel_year','travel_month','age','female','distance','dur_walking','dur_cycling','dur_pt_total','dur_driving','cost_transit','cost_driving_total']]
+df = df_filtered.copy()
+```
+
+Age_category columns 
+
+
+```python
+bins = [0, 18, 30, 55, 100]  
+labels = ['Under 18', '18-30', '31-55', '56 and older']
+df['age_group'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
+```
+
+Adding 2 new columns for pounds/kilometer and minutes/kilometers
+
+
+```python
+def calculate_pounds_per_km(row):
+    if row['travel_mode'] == 'walk' or row['travel_mode'] == 'cycle':
+        return 0  # Cost for walking and cycling is 0
+    elif row['travel_mode'] == 'pt':
+        return row['cost_transit'] / (row['distance'] * 0.001)  # Convert meters to kilometers
+    elif row['travel_mode'] == 'drive':
+        return row['cost_driving_total'] / (row['distance'] * 0.001)  # Convert meters to kilometers
+
+def calculate_min_per_km(row):
+    if row['travel_mode'] == 'walk':
+        return (row['dur_walking'] * 60) / (row['distance'] * 0.001)  # Convert hours to minutes and meters to kilometers
+    elif row['travel_mode'] == 'cycle':
+        return (row['dur_cycling'] * 60) / (row['distance'] * 0.001)
+    elif row['travel_mode'] == 'pt':
+        return (row['dur_pt_total'] * 60) / (row['distance'] * 0.001)
+    elif row['travel_mode'] == 'drive':
+        return (row['dur_driving'] * 60) / (row['distance'] * 0.001)
+
+# Applying these functions to each row of the DataFrame to create new columns
+df['pounds_per_km'] = df.apply(calculate_pounds_per_km, axis=1)
+df['min_per_km'] = df.apply(calculate_min_per_km, axis=1)
+```
+
+Plotting cost and duration vs distance
+
+
+```python
+output_notebook()  
+
+modes = ['walk', 'cycle', 'pt', 'drive']
+colors = ['blue', 'green', 'red', 'black']  
+
+# ColumnDataSource for each mode
+sources = {mode: ColumnDataSource(df[df['travel_mode'] == mode]) for mode in modes}
+
+# Plot 1: Cost vs. Distance
+p1 = figure(width=600, height=400, title="Cost Analysis per Kilometer by Travel Mode",
+            x_axis_label="Distance (km)", y_axis_label="Cost (£/km)")
+
+for mode, color in zip(modes, colors):
+    p1.line(x='distance', y='pounds_per_km', line_width=2, color=color, legend_label=mode.capitalize(), source=sources[mode])
+    p1.add_tools(HoverTool(tooltips=[("Mode", mode), ("Distance", "@distance"), ("Cost", "@pounds_per_km")]))
+
+p1.legend.title = 'Travel Mode'
+p1.legend.location = "top_left"
+
+# Plot 2: Duration vs. Distance
+p2 = figure(width=600, height=400, title="Duration Analysis per Kilometer by Travel Mode",
+            x_axis_label="Distance (km)", y_axis_label="Duration (min/km)")
+
+for mode, color in zip(modes, colors):
+    p2.line(x='distance', y='min_per_km', line_width=2, color=color, legend_label=mode.capitalize(), source=sources[mode])
+    p2.add_tools(HoverTool(tooltips=[("Mode", mode), ("Distance", "@distance"), ("Duration", "@min_per_km")]))
+
+p2.legend.title = 'Travel Mode'
+p2.legend.location = "top_left"
+
+# Layout the plots in a grid
+layout = gridplot([[p1], [p2]])
+
+output_file("cost_per_kilometer.html")
+# Show the plots
+show(layout)
+```
+
+
+<style>
+    .bk-notebook-logo {
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+    }
+</style>
+<div>
+    <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
+    <span id="e158e0cd-9b18-4897-84fc-5919ed2a1dc9">Loading BokehJS ...</span>
+</div>
+
+
+
+
+
+
+
+<div id="c64c91c1-16af-4fb2-8b57-75bef2a113ea" data-root-id="p2341" style="display: contents;"></div>
+
+
+
+
+
+This is a little messy so I will simplify the plots by showing only one average value for every 100 meters for the average cost/km and average duration/km for each transport mode: To do this, I will bin the data by 100 meters before calculaing the average. This way I can clean up the plots by reducing the number of data points and focusing on broader trends across distances.
+
+
+```python
+# distance bins of 100 meters
+df['distance_bin'] = pd.cut(df['distance'], bins=range(0, int(df['distance'].max()) + 100, 100), right=False)
+
+# Grouping by distance_bin and travel_mode, then calculating the mean
+average_cost_per_km = df.groupby(['distance_bin', 'travel_mode']).agg({'pounds_per_km': 'mean'}).reset_index()
+average_min_per_km = df.groupby(['distance_bin', 'travel_mode']).agg({'min_per_km': 'mean'}).reset_index()
+
+# Converting 'distance_bin' to string for plotting (left edge of the bin as representative value)
+average_cost_per_km['distance_bin'] = average_cost_per_km['distance_bin'].apply(lambda x: x.left)
+average_min_per_km['distance_bin'] = average_min_per_km['distance_bin'].apply(lambda x: x.left)
+
+#ColumnDataSources for the averages
+source_cost = ColumnDataSource(average_cost_per_km)
+source_duration = ColumnDataSource(average_min_per_km)
+
+output_notebook()
+
+# figures
+p1 = figure(width=800, height=400, title="Average Cost per Kilometer by Travel Mode", x_axis_label="Distance (m)", y_axis_label="Average Cost (£/km)")
+p2 = figure(width=800, height=400, title="Average Duration per Kilometer by Travel Mode", x_axis_label="Distance (m)", y_axis_label="Average Duration (min/km)")
+
+modes = ['walk', 'cycle', 'pt', 'drive']
+colors = ['blue', 'green', 'red', 'black']
+
+# Ploting each mode
+for mode, color in zip(modes, colors):
+    mode_data_cost = average_cost_per_km[average_cost_per_km['travel_mode'] == mode]
+    mode_data_duration = average_min_per_km[average_min_per_km['travel_mode'] == mode]
+    p1.line(x='distance_bin', y='pounds_per_km', line_width=2, color=color, legend_label=mode.capitalize(), source=ColumnDataSource(mode_data_cost))
+    p2.line(x='distance_bin', y='min_per_km', line_width=2, color=color, legend_label=mode.capitalize(), source=ColumnDataSource(mode_data_duration))
+
+# legends
+p1.legend.location = "top_right"
+p2.legend.location = "top_right"
+
+layout = gridplot([[p1], [p2]])
+output_file("average_cost_per_kilometer.html")
+
+# Show the plots
+show(layout)
+```
+
+    C:\Users\maxhb\AppData\Local\Temp\ipykernel_32200\1418672189.py:5: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+      average_cost_per_km = df.groupby(['distance_bin', 'travel_mode']).agg({'pounds_per_km': 'mean'}).reset_index()
+    C:\Users\maxhb\AppData\Local\Temp\ipykernel_32200\1418672189.py:6: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+      average_min_per_km = df.groupby(['distance_bin', 'travel_mode']).agg({'min_per_km': 'mean'}).reset_index()
+    
+
+
+<style>
+    .bk-notebook-logo {
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+    }
+</style>
+<div>
+    <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
+    <span id="c95229de-bf76-409e-856a-b8252f5b1ea8">Loading BokehJS ...</span>
+</div>
+
+
+
+
+
+
+
+<div id="d126b110-4342-49a9-8d46-fdb8db18e557" data-root-id="p2649" style="display: contents;"></div>
+
+
+
+
+
+Trying to add some interactive features:
+
+
+```python
+output_notebook()
+
+# Create ColumnDataSource for each mode for better interactivity
+data_sources = {}
+modes = ['walk', 'cycle', 'pt', 'drive']
+colors = ['blue', 'green', 'red', 'black']
+
+for mode in modes:
+    data_sources[mode] = ColumnDataSource({
+        'distance': average_cost_per_km[average_cost_per_km['travel_mode'] == mode]['distance_bin'],
+        'cost': average_cost_per_km[average_cost_per_km['travel_mode'] == mode]['pounds_per_km'],
+        'duration': average_min_per_km[average_min_per_km['travel_mode'] == mode]['min_per_km']
+    })
+
+# Plot 1: Average Cost per Kilometer
+p1 = figure(width=800, height=400, title="Interactive Average Cost per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Cost (£/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+
+# Plot 2: Average Duration per Kilometer
+p2 = figure(width=800, height=400, title="Interactive Average Duration per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Duration (min/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+
+# Adding lines with hover tool
+for mode, color in zip(modes, colors):
+    line1 = p1.line('distance', 'cost', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+    line2 = p2.line('distance', 'duration', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+
+    p1.add_tools(HoverTool(renderers=[line1], tooltips=[('Mode', mode.capitalize()), ('Distance', '@distance'), ('Cost', '@cost{0.2f}')], mode='vline'))
+    p2.add_tools(HoverTool(renderers=[line2], tooltips=[('Mode', mode.capitalize()), ('Distance', '@distance'), ('Duration', '@duration{0.2f}')], mode='vline'))
+
+# Configuring the legends to toggle line visibility
+p1.legend.click_policy = "hide"
+p2.legend.click_policy = "hide"
+
+
+layout = column(p1, p2)
+output_file("interactive_average_cost_per_kilometer.html")
+
+show(layout)
+```
+
+
+<style>
+    .bk-notebook-logo {
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+    }
+</style>
+<div>
+    <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
+    <span id="c8be51a6-08d5-4c69-9392-86dc4c31a2b5">Loading BokehJS ...</span>
+</div>
+
+
+
+
+
+
+
+<div id="cac28011-9857-41da-82e4-4e33dd84c7ec" data-root-id="p2866" style="display: contents;"></div>
+
+
+
+
+
+To adjust the y-axis scale I will use a dynamic scaling method based on the quantiles of the data to exclude extreme values. This can help in focusing the plot on the range where most of the data lies, making it easier to interpret.
+
+Here I am adjusting the range of the plot to cover up to the 95th percentile of the data:
+
+
+
+```python
+quantile_95_cost = df['pounds_per_km'].quantile(0.95)  
+
+p1 = figure(width=800, height=400, title="Interactive Average Cost per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Cost (£/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+
+# Setting the y-axis range dynamically
+p1.y_range = Range1d(0, quantile_95_cost)
+
+for mode, color in zip(modes, colors):
+    p1.line('distance', 'cost', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+output_file("cost_per_kilometer.html")
+
+show(p1)
+
+quantile_95_duration = average_min_per_km['min_per_km'].quantile(0.95)  # Get the 95th percentile for duration
+
+p2 = figure(width=800, height=400, title="Interactive Average Duration per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Duration (min/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+
+# Setting the y-axis range dynamically for the duration plot
+p2.y_range = Range1d(0, quantile_95_duration)
+
+for mode, color in zip(modes, colors):
+    p2.line('distance', 'duration', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+
+show(p2)
+
+
+```
+
+
+
+<div id="abbcb304-3f3c-4f94-94fb-fa459f39350c" data-root-id="p2892" style="display: contents;"></div>
+
+
+
+
+
+
+
+<div id="ff1a5fe4-295c-4f8d-980d-3584c1e82218" data-root-id="p2991" style="display: contents;"></div>
+
+
+
+
+
+
+```python
+from bokeh.plotting import figure, show
+from bokeh.models import HoverTool, ColumnDataSource, Range1d
+
+quantile_95_cost = df['pounds_per_km'].quantile(0.95)
+quantile_95_duration = average_min_per_km['min_per_km'].quantile(0.95)
+
+# figure for cost
+p1 = figure(width=800, height=400, title="Interactive Average Cost per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Cost (£/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+p1.y_range = Range1d(0, quantile_95_cost)
+
+#figure for duration
+p2 = figure(width=800, height=400, title="Interactive Average Duration per Kilometer by Travel Mode",
+            x_axis_label="Distance (m)", y_axis_label="Average Duration (min/km)",
+            tools="pan,wheel_zoom,box_zoom,reset,save")
+p2.y_range = Range1d(0, quantile_95_duration)
+
+# lines and hover tools for each mode
+for mode, color in zip(modes, colors):
+    p1.line('distance', 'cost', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+    p2.line('distance', 'duration', line_width=2, color=color, legend_label=mode.capitalize(), source=data_sources[mode])
+
+p1.add_tools(HoverTool(tooltips=[
+    ("Distance", "@distance"),
+    ("Cost (£/km)", "@cost"),
+    ("Travel Mode", "@travel_mode")
+]))
+
+p2.add_tools(HoverTool(tooltips=[
+    ("Distance", "@distance"),
+    ("Duration (min/km)", "@duration"),
+    ("Travel Mode", "@travel_mode")
+]))
+output_file("average_cost_per_kilometer.html")
+
+show(p1)
+output_file("average_dur_per_kilometer.html")
+
+show(p2)
+
+```
+
+
+
+<div id="dae20178-90be-4522-86fe-86ff785753b3" data-root-id="p3290" style="display: contents;"></div>
+
+
+
+
+
+
+
+<div id="cfa4bf96-8a08-475f-a970-672d8b97d8f6" data-root-id="p3323" style="display: contents;"></div>
+
+
+
+
+
+
+```python
+
+```
 
 
