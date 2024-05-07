@@ -5,4 +5,3 @@
 
 layout: home
 ---
-<link rel="stylesheet" href="/assets/custom.css">
