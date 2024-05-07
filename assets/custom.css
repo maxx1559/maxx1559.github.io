@@ -1,4 +1,8 @@
-.container {
-    max-width: 100%;
-    padding: 0 20px; /* 你可以调整内边距以控制内容与边缘的距离 */
+.post-content {
+    padding: 0 10px;  
+    max-width: 100%;  
+}
+.post-content {
+    font-size: 16px;  
+    color: #333;     
 }
