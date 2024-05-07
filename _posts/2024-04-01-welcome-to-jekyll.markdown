@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- 确保src路径指向正确的图片位置 -->
-    <img src="assets/1.png" alt="Social data analysis and visualization Spring '24" class="header-image">
+    <img src="/assets/1.png" alt="Social data analysis and visualization Spring '24" class="header-image">
 </body>
 </html>
 ---
