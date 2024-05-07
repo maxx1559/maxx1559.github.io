@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Social Data Analysis</title>
     <style>
         .header-image {
             width: 100%;
@@ -12,10 +12,11 @@
     </style>
 </head>
 <body>
-    <img src="assets/1.png"  class="header-image">
-
+    <!-- 确保src路径指向正确的图片位置 -->
+    <img src="assets/1.png" alt="Social data analysis and visualization Spring '24" class="header-image">
 </body>
 </html>
+
 ---
 layout: post
 title:  "Delving into the travelling mode for people in New York"
