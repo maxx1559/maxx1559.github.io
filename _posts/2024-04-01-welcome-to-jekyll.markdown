@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "Delving into the travelling mode for people in New York"
+date:   2024-04-01 12:02:00 +0800
+categories: Posts
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,12 +23,7 @@
 </body>
 </html>
 
----
-layout: post
-title:  "Delving into the travelling mode for people in New York"
-date:   2024-04-01 12:02:00 +0800
-categories: Posts
----
+
 
 
 Then we divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
