@@ -421,7 +421,7 @@ plt.show()
 
 
     
-![png](Explainer%20Notebook_files/Explainer%20Notebook_4_0.png)
+![png](/assets/Explainer%20Notebook_files/Explainer%20Notebook_4_0.png)
     
 
 
@@ -439,7 +439,7 @@ plt.show()
 
 
     
-![png](Explainer%20Notebook_files/Explainer%20Notebook_5_0.png)
+![png](/assets/Explainer%20Notebook_files/Explainer%20Notebook_5_0.png)
     
 
 
@@ -466,7 +466,7 @@ plt.show()
 
 
     
-![png](Explainer%20Notebook_files/Explainer%20Notebook_6_1.png)
+![png](/assets/Explainer%20Notebook_files/Explainer%20Notebook_6_1.png)
     
 
 
@@ -1116,7 +1116,7 @@ plt.show()
 
 
     
-![png](Project%20Assignment%201_files/Project%20Assignment%201_7_0.png)
+![png](/assets/Project%20Assignment%201_files/Project%20Assignment%201_7_0.png)
     
 
 
@@ -1134,7 +1134,7 @@ plt.show()
 
 
     
-![png](Project%20Assignment%201_files/Project%20Assignment%201_8_0.png)
+![png](/assets/Project%20Assignment%201_files/Project%20Assignment%201_8_0.png)
     
 
 
@@ -1161,7 +1161,7 @@ plt.show()
 
 
     
-![png](Project%20Assignment%201_files/Project%20Assignment%201_9_1.png)
+![png](/assets/Project%20Assignment%201_files/Project%20Assignment%201_9_1.png)
     
 
 
@@ -1344,7 +1344,7 @@ plt.show()
 
 
     
-![png](Project%20Assignment%201_files/Project%20Assignment%201_15_0.png)
+![png](/assets/Project%20Assignment%201_files/Project%20Assignment%201_15_0.png)
     
 
 
@@ -1357,7 +1357,7 @@ plt.show()
 
 
     
-![png](Project%20Assignment%201_files/Project%20Assignment%201_16_0.png)
+![png](/assets/Project%20Assignment%201_files/Project%20Assignment%201_16_0.png)
     
 
 
