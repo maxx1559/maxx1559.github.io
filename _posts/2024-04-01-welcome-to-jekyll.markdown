@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <img src="ass/1.png"  class="header-image">
+    <img src="assets/1.png"  class="header-image">
 
 </body>
 </html>
@@ -25,7 +25,7 @@ categories: Posts
 
 
 Then we divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
-<iframe src="/ass/interactive_plot.html"
+<iframe src="/assets/interactive_plot.html"
     sandbox="allow-same-origin allow-scripts"
     width="100%"
     height="500"
