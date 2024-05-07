@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/assets/custom.css">
 
-![Social data analysis and visualization Spring '24](/assets/1.png)
 
 Then we divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
 <iframe src="/assets/interactive_plot.html"
