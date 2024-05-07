@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/assets/custom.css">
 
 ![Social data analysis and visualization Spring '24](/assets/1.png)
 
