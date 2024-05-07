@@ -1,4 +1,9 @@
-
+---
+layout: post
+title:  "Delving into the travelling mode for people in New York"
+date:   2024-04-01 12:02:00 +0800
+categories: Posts
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,12 +22,7 @@
     <img src="/assets/1.png" alt="Social data analysis and visualization Spring '24" class="header-image">
 </body>
 </html>
----
-layout: post
-title:  "Delving into the travelling mode for people in New York"
-date:   2024-04-01 12:02:00 +0800
-categories: Posts
----
+
 
 
 
