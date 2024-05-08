@@ -41,7 +41,7 @@ This plot can be used to compare to the former, since it is a histogram showing 
 <iframe src="/assets/distances_histogram.html" sandbox="allow-same-origin allow-scripts" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0">
 </iframe>
 
-<h3>Understanding Urban Mobility in London through Cost and Time Efficiency</h3>
+<h3>3.Understanding Urban Mobility in London through Cost and Time Efficiency</h3>
     
 <iframe src="/assets/average_cost_per_kilometer.html" sandbox="allow-same-origin allow-scripts" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0">
 </iframe>
