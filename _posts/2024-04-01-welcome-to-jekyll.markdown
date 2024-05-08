@@ -1,10 +1,9 @@
 <link rel="stylesheet" href="/assets/custom.css">
 
-<h2>Final Project</h2>
-<h3>Environmental Impact of Commuting in London</h3>
-We've analyzed a dataset containing the different commuter trips people in London take to work.
-<h3>The comparison between people who travel by car or other modes</h3>
-We firstly divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
+<h2>Environmental Impact of Commuting in London</h2>
+We've analyzed a dataset containing the different commuter trips people in London take to work to detect a pattern based on gathering all travelling data of people located in New York.
+<h3>1. The comparison between people who travel by car or other modes</h3>
+We firstly divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes, mainly to see why people choose to travel by car or other modes. We assume travelling by car is the least environmental-friendly way. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
 <iframe src="/assets/interactive_plot.html"
     sandbox="allow-same-origin allow-scripts"
     width="100%"
@@ -17,11 +16,13 @@ Based on the interactive comparison plot, here we can see:
 
 Fare Type: The majority of travelers either pay full fare or travel for free. There are consistently more travelers in each category who choose other modes over traveling by car. Notably, there is a higher proportion of disabled individuals opting for modes other than cars.
 
-Travel Purpose: A significant number of people travel for Home-Based Other (HBO) purposes. In every category, the number of individuals using modes other than cars exceeds those who travel by car.
+Travel Purpose: A significant number of people travel for HBO (Home-Based Other) purposes. In every category, the number of individuals using modes other than cars exceeds those who travel by car.
 
 Day of the Week: Car users typically travel on weekends, with fewer choosing to travel on Mondays. Conversely, those who use other modes prefer to travel on weekdays, particularly on Fridays.
 
+Overall, most of people choose to travel by car for HBO reasons and they prefer to travel on weekends.
 
+<h3>2. The carbon dioxide emission for different travel types</h3>
 
 Our first plot looks at the different types fuel used in cars over time. Here we can see that petrol cars are overwhelmingly the most used cars. We have to remember, this dataset only goes from 2012 to 2015, so electric cars weren't as prevalant as a commuter car at this time.
 
