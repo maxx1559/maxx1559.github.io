@@ -2207,3 +2207,12 @@ fig.update_layout(
 fig.show()
 #fig.write_html('C:/all files/interactive_plot.gif', auto_open=False)
 ```
+<h3>The distribution part:</h3>
+
+Ning Sun: Part 1  
+Max Bestle: Part 2
+Dimasha Nanayakkara: Part 3
+
+
+
+
