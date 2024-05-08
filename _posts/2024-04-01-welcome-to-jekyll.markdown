@@ -2209,7 +2209,7 @@ fig.show()
 ```
 <h3>The distribution part:</h3>
 
-Ning Sun: Part 1  
+Ning Sun: Part 1 and formatting
 
 Max Bestle: Part 2
 
