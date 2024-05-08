@@ -2210,7 +2210,9 @@ fig.show()
 <h3>The distribution part:</h3>
 
 Ning Sun: Part 1  
+
 Max Bestle: Part 2
+
 Dimasha Nanayakkara: Part 3
 
 
