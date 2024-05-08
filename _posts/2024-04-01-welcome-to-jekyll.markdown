@@ -3,8 +3,8 @@
 <h2>Final Project</h2>
 <h3>Environmental Impact of Commuting in London</h3>
 We've analyzed a dataset containing the different commuter trips people in London take to work.
-
-We divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
+#The comparison between people who travel by car or other modes
+We firstly divided individuals into two groups based on their mode of transportation: those who travel by car and those who use other transportation modes. An interactive plot was then created to examine differences in fare type, travel purpose, and the days of the week people travel.
 <iframe src="/assets/interactive_plot.html"
     sandbox="allow-same-origin allow-scripts"
     width="100%"
