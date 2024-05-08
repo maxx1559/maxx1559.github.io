@@ -2114,5 +2114,96 @@ show(p2)
 ```python
 
 ```
+the code for the first interactive plot:
+```python
+df_drive = df[df['travel_mode'] == 'drive']
+df_otherways = df[(df['travel_mode'] == 'walk') | (df['travel_mode'] == 'pt') | (df['travel_mode'] == 'cycle')]
+correlation_matrix_drive = df_drive[['efficiency_score', 'environment_score']].corr()
+correlation_matrix_otherways = df_otherways[['efficiency_score', 'environment_score']].corr()
+sns.heatmap(correlation_matrix_drive, annot=True)
+plt.show()
+import pandas as pd
+import plotly.graph_objects as go
+
+# Assuming df_drive and df_otherways are your DataFrames for driving and other modes respectively.
+
+# Calculate the value counts for fare types
+drive_fare_counts = df_drive['faretype'].value_counts().reset_index()
+drive_fare_counts.columns = ['Category', 'Frequency']
+drive_fare_counts['Mode'] = 'Driving'
+drive_fare_counts['Type'] = 'FareType'
+
+other_fare_counts = df_otherways['faretype'].value_counts().reset_index()
+other_fare_counts.columns = ['Category', 'Frequency']
+other_fare_counts['Mode'] = 'Other Modes'
+other_fare_counts['Type'] = 'FareType'
+
+# Calculate the value counts for travel purposes
+drive_purpose_counts = df_drive['purpose'].value_counts().reset_index()
+drive_purpose_counts.columns = ['Category', 'Frequency']
+drive_purpose_counts['Mode'] = 'Driving'
+drive_purpose_counts['Type'] = 'Purpose'
+
+other_purpose_counts = df_otherways['purpose'].value_counts().reset_index()
+other_purpose_counts.columns = ['Category', 'Frequency']
+other_purpose_counts['Mode'] = 'Other Modes'
+other_purpose_counts['Type'] = 'Purpose'
+
+# Third dataset: day of week
+drive_day_counts = df_drive['day_of_week'].value_counts().reset_index()
+drive_day_counts.columns = ['Category', 'Frequency']
+drive_day_counts['Mode'] = 'Driving'
+drive_day_counts['Type'] = 'DayOfWeek'
+
+other_modes_day_counts = df_otherways['day_of_week'].value_counts().reset_index()
+other_modes_day_counts.columns = ['Category', 'Frequency']
+other_modes_day_counts['Mode'] = 'Other Modes'
+other_modes_day_counts['Type'] = 'DayOfWeek'
 
 
+
+# Combine all the data
+combined_data = pd.concat([drive_fare_counts, other_fare_counts, drive_purpose_counts, other_purpose_counts, drive_day_counts, other_modes_day_counts])
+# Create the interactive plot with dropdowns
+fig = go.Figure()
+
+# Add traces for each type and mode
+for t in combined_data['Type'].unique():
+    for m in combined_data['Mode'].unique():
+        subset = combined_data[(combined_data['Type'] == t) & (combined_data['Mode'] == m)]
+        fig.add_trace(go.Bar(x=subset['Category'], y=subset['Frequency'], name=f'{m}', visible=(t=='FareType')))
+
+# Update layout with dropdowns
+fig.update_layout(
+    updatemenus=[
+        {
+            'buttons': [
+                {
+                    'method': 'update',
+                    'label': 'Fare Type',
+                    'args': [{'visible': [True, True, False, False, False, False]}, {'title': 'Travel Fare Type by Mode of Transportation'}],
+                },
+                {
+                    'method': 'update',
+                    'label': 'Purpose',
+                    'args': [{'visible': [False, False, True, True, False, False]}, {'title': 'Travel Purpose by Mode of Transportation'}],
+                },
+                {
+                    'method': 'update',
+                    'label': 'Day of Week',
+                    'args': [{'visible': [False, False, False, False, True, True]}, {'title': 'Travel Day of Week by Mode of Transportation'}],
+                },
+             
+            ],
+            'direction': 'down',
+            'showactive': True,
+        }
+    ],
+    title="Travel Fare Type by Mode of Transportation",
+    barmode='group',
+)
+
+# Save the plot as HTML and open it in the browser
+fig.show()
+#fig.write_html('C:/all files/interactive_plot.gif', auto_open=False)
+```
